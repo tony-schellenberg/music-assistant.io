@@ -4,16 +4,16 @@ title: Lyrics
 
 # Lyrics <img src="/assets/icons/metadata-lyrics-icon.png" alt="Preview image" style="width: 70px; float: right;"  loading="lazy" />
 
-Music Assistant shows lyrics in the [Now Playing view](/ui/#now-playing-view) when they are available for the playing track; there is nothing to configure by default. This page explains where lyrics come from and how to fix wrong ones.
+Music Assistant shows lyrics in the [Now Playing view](/ui/#now-playing-view) and [Party view](/plugins/party/) when they are available for the playing track; there is nothing to configure by default. This page explains where lyrics come from and how to fix wrong ones.
 
 Two kinds of lyrics are available:
 
 - **Synchronized lyrics** (`.lrc` format with timestamps)
 - **Unsynchronized lyrics** (plain text)
 
-## Lyrics Sources
+## Lyrics Sources/
 
-Music Assistant currently has two dedicated lyrics metadata providers. They run in addition to any lyrics delivered by the music source itself (Tidal, local tags, .lrc files, etc.) and are skipped when a track already has lyrics. If both providers are enabled, LRCLIB runs first and Genius fills in only when LRCLIB returned nothing. The following lists all lyric sources in order of preference:
+Music Assistant currently has two dedicated lyrics metadata providers. They run in addition to any lyrics delivered by the music source itself (Tidal, local tags, .lrc files, etc.). If both providers are enabled, LRCLIB runs first and Genius fills in only when LRCLIB returned nothing. The following lists all lyric sources in order of preference:
 
 1. **Embedded lyrics** in the audio file's tags.
 2. **`.lrc` file** with the same name as the audio file (the format produced by tools such as [LRCGET](https://github.com/tranxuanthang/lrcget)).
@@ -22,6 +22,8 @@ Music Assistant currently has two dedicated lyrics metadata providers. They run 
 5. **Genius Lyrics** (optional) — unsynchronized only, matched on title and artist.
 
 A background lookup is started as soon as a track enters the queue, so lyrics are usually available by the time the song starts.
+
+By default, synchronized lyrics are preferred and the sources noted above will be searched, in that order, and take the first synchronized lyrics available. If no synchronized lyrics are found, unsynchronized lyrics will be used, following the precedence. There is a configuration toggle available in the global configurations disable searching for synchronized lyrics; if disabled, the system will prefer the first lyrics encountered.
 
 ## How lyrics are fetched
 
