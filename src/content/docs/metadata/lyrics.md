@@ -4,7 +4,7 @@ title: Lyrics
 
 # Lyrics <img src="/assets/icons/metadata-lyrics-icon.png" alt="Preview image" style="width: 70px; float: right;"  loading="lazy" />
 
-Music Assistant shows lyrics in the [Now Playing view](/ui/#now-playing-view) when they are available for the playing track; there is nothing to configure by default. This page explains where lyrics come from and how to fix wrong ones.
+Music Assistant shows lyrics in the [Now Playing view](/ui/#now-playing-view) and [Party view](/plugins/party/) when they are available for the playing track; there is nothing to configure by default. This page explains where lyrics come from and how to fix wrong ones.
 
 Two kinds of lyrics are available:
 
@@ -13,10 +13,10 @@ Two kinds of lyrics are available:
 
 ## Lyrics Sources
 
-Music Assistant currently has two dedicated lyrics metadata providers. They run in addition to any lyrics delivered by the music source itself (Tidal, local tags, .lrc files, etc.) and are skipped when a track already has lyrics. If both providers are enabled, LRCLIB runs first and Genius fills in only when LRCLIB returned nothing. The following lists all lyric sources in order of preference:
+Music Assistant currently has two dedicated lyrics metadata providers. They run in addition to any lyrics delivered by the music source itself (Tidal, local tags, .lrc files, etc.). If both providers are enabled, LRCLIB runs first and Genius fills in only when LRCLIB returned nothing. The following lists all lyric sources in order of preference:
 
-1. **Embedded lyrics** in the audio file's tags.
-2. **`.lrc` file** with the same name as the audio file (the format produced by tools such as [LRCGET](https://github.com/tranxuanthang/lrcget)).
+1. **`.lrc` file** with the same name as the audio file (the format produced by tools such as [LRCGET](https://github.com/tranxuanthang/lrcget)).
+2. **Embedded lyrics** in the audio file's tags.
 3. **The track's own music provider**, when it exposes lyrics natively (e.g. some streaming providers).
 4. **LRCLIB** — synchronized is preferred but there is an unsynchronized falllback.
 5. **Genius Lyrics** (optional) — unsynchronized only, matched on title and artist.
@@ -34,6 +34,12 @@ For all music sources, if one or more lyric metadata providers are available the
 
 Tidal has native lyrics support, but due to its API lyrics are only fetched as part of a full track lookup, which happens when you open a track's info page or play it. You may need to refresh the item and play again before lyrics appear.
 
+## Prefer Synchronized Lyrics
+
+By default, synchronized lyrics are preferred when both are types available during the precedence based search. Lyrics provided as fle based `.lrc` or embedded tags will be treated as absolutely correct if present and no further searching will occur; this is true even if only unsynchronized lyrics are provided.
+
+A configuration flag is available that can enable additional searching for synchronized lyrics. If enabled, searching of music provider lyrics will not stop if plain lyrics are encountered but will continue into online metadata providers to fetch synchronize in an effort to find synchronized ones. If no synchronized lyrics can be found, the first unsynchronized lyrics previously encountered will be presented.
+
 ## Two lyrics providers
 
 ### LRCLIB
@@ -50,6 +56,6 @@ Genius Lyrics is enabled from [**Settings → Metadata providers → Add a metad
 
 ## Replacing wrong or stale lyrics
 
-Use `Update Metadata` on the track's page. It reads the lyrics again, first from the track's own files (an embedded lyrics tag or a `.lrc` file next to the audio file), then from the online lyrics providers. If no lyrics are found, the existing ones are kept.
+Use `Update Metadata` on the track's page. It reads the lyrics again, first from the track's own files (a `.lrc` file next to the main audio file or embedded lyrics tags), then from the online lyrics providers. If no lyrics are found, the existing ones are kept.
 
 For local files you can also wait for the next library scan after editing the embedded lyrics tag. A scan does not notice an edited `.lrc` file on its own, so use `Update Metadata` or `Refresh Item` for that.
