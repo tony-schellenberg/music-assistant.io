@@ -11,19 +11,19 @@ Two kinds of lyrics are available:
 - **Synchronized lyrics** (`.lrc` format with timestamps)
 - **Unsynchronized lyrics** (plain text)
 
-## Lyrics Sources/
+## Lyrics Sources
 
 Music Assistant currently has two dedicated lyrics metadata providers. They run in addition to any lyrics delivered by the music source itself (Tidal, local tags, .lrc files, etc.). If both providers are enabled, LRCLIB runs first and Genius fills in only when LRCLIB returned nothing. The following lists all lyric sources in order of preference:
 
-1. **Embedded lyrics** in the audio file's tags.
-2. **`.lrc` file** with the same name as the audio file (the format produced by tools such as [LRCGET](https://github.com/tranxuanthang/lrcget)).
+1. **`.lrc` file** with the same name as the audio file (the format produced by tools such as [LRCGET](https://github.com/tranxuanthang/lrcget)).
+2. **Embedded lyrics** in the audio file's tags.
 3. **The track's own music provider**, when it exposes lyrics natively (e.g. some streaming providers).
 4. **LRCLIB** — synchronized is preferred but there is an unsynchronized falllback.
 5. **Genius Lyrics** (optional) — unsynchronized only, matched on title and artist.
 
 A background lookup is started as soon as a track enters the queue, so lyrics are usually available by the time the song starts.
 
-By default, synchronized lyrics are preferred and the sources noted above will be searched, in that order, and take the first synchronized lyrics available. If no synchronized lyrics are found, unsynchronized lyrics will be used, following the precedence. There is a configuration toggle available in the global configurations disable searching for synchronized lyrics; if disabled, the system will prefer the first lyrics encountered.
+By default, synchronized lyrics are preferred. For the first two, the `lrc` file and embedded lyrics, they will be treated as absolutely correct and no additional searching will occur if lyrics are found in either of those two places. For the remaining sources, searching will continue and take the first `synchronized` lyrics available. If no synchronized lyrics are found, the first set of unsynchronized lyrics will be used. There is a configuration toggle available in the global configurations disable searching for synchronized lyrics; if disabled, the system will prefer the first lyrics encountered.
 
 ## How lyrics are fetched
 
@@ -52,6 +52,6 @@ Genius Lyrics is enabled from [**Settings → Metadata providers → Add a metad
 
 ## Replacing wrong or stale lyrics
 
-Use `Update Metadata` on the track's page. It reads the lyrics again, first from the track's own files (an embedded lyrics tag or a `.lrc` file next to the audio file), then from the online lyrics providers. If no lyrics are found, the existing ones are kept.
+Use `Update Metadata` on the track's page. It reads the lyrics again, first from the track's own files (a `.lrc` file next to the main audio file or embedded lyrics tags), then from the online lyrics providers. If no lyrics are found, the existing ones are kept.
 
 For local files you can also wait for the next library scan after editing the embedded lyrics tag. A scan does not notice an edited `.lrc` file on its own, so use `Update Metadata` or `Refresh Item` for that.
