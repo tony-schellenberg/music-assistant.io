@@ -23,8 +23,6 @@ Music Assistant currently has two dedicated lyrics metadata providers. They run 
 
 A background lookup is started as soon as a track enters the queue, so lyrics are usually available by the time the song starts.
 
-By default, synchronized lyrics are preferred. For the first two, the `lrc` file and embedded lyrics, they will be treated as absolutely correct and no additional searching will occur if lyrics are found in either of those two places. For the remaining sources, searching will continue and take the first `synchronized` lyrics available. If no synchronized lyrics are found, the first set of unsynchronized lyrics will be used. There is a configuration toggle available in the global configurations disable searching for synchronized lyrics; if disabled, the system will prefer the first lyrics encountered.
-
 ## How lyrics are fetched
 
 For all music sources, if one or more lyric metadata providers are available then lyrics will be attempted to be obtained according to the following rules (note that it is possible that matching lyrics can't be found)
@@ -35,6 +33,12 @@ For all music sources, if one or more lyric metadata providers are available the
 - **Manual refresh:** Selecting Update Metadata from a track's menu bypasses the 90-day check and re-runs the lookup immediately
 
 Tidal has native lyrics support, but due to its API lyrics are only fetched as part of a full track lookup, which happens when you open a track's info page or play it. You may need to refresh the item and play again before lyrics appear.
+
+## Prefer Synchronized Lyrics
+
+By default, synchronized lyrics are preferred when both are types available during the precedence based search. Lyrics provided as fle based `.lrc` or embedded tags will be treated as absolutely correct if present and no further searching will occur; this is true even if only unsynchronized lyrics are provided.
+
+A configuration flag is available that can enable additional searching for synchronized lyrics. If enabled, searching of music provider lyrics will not stop if plain lyrics are encountered but will continue into online metadata providers to fetch synchronize in an effort to find synchronized ones. If no synchronized lyrics can be found, the first unsynchronized lyrics previously encountered will be presented.
 
 ## Two lyrics providers
 
